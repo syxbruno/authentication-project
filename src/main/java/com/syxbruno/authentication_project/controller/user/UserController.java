@@ -2,6 +2,7 @@ package com.syxbruno.authentication_project.controller.user;
 
 import com.syxbruno.authentication_project.dto.user.request.UserLoginRequest;
 import com.syxbruno.authentication_project.dto.user.request.UserRegisterRequest;
+import com.syxbruno.authentication_project.dto.user.response.UserLoginResponse;
 import com.syxbruno.authentication_project.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +18,10 @@ public class UserController {
   private final UserService service;
 
   @PostMapping("/login")
-  public ResponseEntity login(@RequestBody @Valid UserLoginRequest data) {
+  public ResponseEntity<UserLoginResponse> login(@RequestBody @Valid UserLoginRequest data) {
 
-    service.login(data);
-    return ResponseEntity.ok().build();
+      UserLoginResponse response = service.login(data);
+      return ResponseEntity.ok(response);
   }
 
   @PostMapping("/register")

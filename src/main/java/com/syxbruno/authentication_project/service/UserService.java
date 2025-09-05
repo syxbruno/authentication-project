@@ -2,6 +2,7 @@ package com.syxbruno.authentication_project.service;
 
 import com.syxbruno.authentication_project.dto.user.request.UserLoginRequest;
 import com.syxbruno.authentication_project.dto.user.request.UserRegisterRequest;
+import com.syxbruno.authentication_project.dto.user.response.UserLoginResponse;
 import com.syxbruno.authentication_project.exception.UserResponseException;
 import com.syxbruno.authentication_project.model.User;
 import com.syxbruno.authentication_project.repository.UserRepository;
@@ -20,19 +21,23 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
-  private final AuthenticationManager manager;
-  private final UserRepository repository;
+  private final TokenService service;
   private final PasswordEncoder encoder;
+  private final UserRepository repository;
+  private final AuthenticationManager manager;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     return repository.findByEmail(username).orElseThrow(() -> new UserResponseException("This email is not registered in the database"));
   }
 
-  public void login(UserLoginRequest data) {
+  public UserLoginResponse login(UserLoginRequest data) {
 
     UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
     Authentication auth = manager.authenticate(usernamePassword);
+
+      String token = service.generateToken((User) auth.getPrincipal());
+      return new UserLoginResponse(token);
   }
 
 
