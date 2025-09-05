@@ -1,0 +1,16 @@
+services:
+  db:
+    image: mysql:9.4.0
+    container_name: db_authentication
+    environment:
+      MYSQL_DATABASE: db_authentication
+      MYSQL_ROOT_PASSWORD: ${ENV_DB_ROOT_PASSWORD}
+      MYSQL_USER: ${ENV_DB_USER}
+      MYSQL_PASSWORD: ${ENV_DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_authentication:/var/lib/mysql
+
+volumes:
+  db_authentication:
