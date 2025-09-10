@@ -18,4 +18,10 @@ public class HelloController {
 
     return ResponseEntity.ok("Hello Admin");
   }
+
+  @GetMapping("/super")
+  public ResponseEntity<String> helloSuper() {
+
+    return ResponseEntity.ok("Hello Super");
+  }
 }

@@ -2,11 +2,16 @@ package com.syxbruno.authentication_project.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.time.LocalDateTime;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,19 +27,25 @@ public class User implements UserDetails {
   @Column(unique = true)
   private String email;
   private String password;
-  private Boolean checked;
-  private String token;
-  private LocalDateTime tokenExpiration;
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "users_profiles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "profiles_id"))
+  private final List<Profiles> profiles = new ArrayList<>();
 
-  public User(String name, String email, String password) {
+  public User(String name, String email, String password, Profiles profile) {
     this.name = name;
     this.email = email;
     this.password = password;
+    this.profiles.add(profile);
+  }
+
+  public void addProfile(Profiles profile) {
+
+    this.profiles.add(profile);
   }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+    return profiles;
   }
 
   @Override

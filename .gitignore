@@ -15,7 +15,7 @@ target/
 
 ### Credentials ###
 .env
-*.env
+**.env
 
 ### IntelliJ IDEA ###
 .idea

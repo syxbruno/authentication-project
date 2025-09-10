@@ -22,6 +22,9 @@
     <flyway-core.version>11.12.0</flyway-core.version>
     <flyway-mysql.version>11.11.2</flyway-mysql.version>
     <java-jwt.version>4.5.0</java-jwt.version>
+    <jib-maven-plugin.version>3.4.6</jib-maven-plugin.version>
+    <mapstruct.version>1.6.3</mapstruct.version>
+    <mapstruct-processor.version>1.6.3</mapstruct-processor.version>
   </properties>
 
   <dependencies>
@@ -70,6 +73,18 @@
     </dependency>
 
     <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+      <version>${mapstruct.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct-processor</artifactId>
+      <version>${mapstruct-processor.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
       <scope>runtime</scope>
@@ -103,6 +118,17 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>jib-maven-plugin</artifactId>
+        <version>${jib-maven-plugin.version}</version>
+        <configuration>
+          <to>
+            <image>authentication-project</image>
+          </to>
+        </configuration>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
