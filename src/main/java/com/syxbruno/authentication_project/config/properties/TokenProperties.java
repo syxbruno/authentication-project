@@ -11,5 +11,5 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "api.security.token")
 public class TokenProperties {
 
-    private String secret;
+  private String secret;
 }

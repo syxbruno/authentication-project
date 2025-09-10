@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    private final SecurityFilter securityFilter;
+  private final SecurityFilter securityFilter;
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,10 +31,10 @@ public class SecurityConfiguration {
         .authorizeHttpRequests(auth -> {
 
           auth
-              .requestMatchers(HttpMethod.POST, "/login", "/register").permitAll()
+              .requestMatchers(HttpMethod.POST, "/login", "/register", "/update-token").permitAll()
               .anyRequest().authenticated();
         })
-            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+        .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
   }
 

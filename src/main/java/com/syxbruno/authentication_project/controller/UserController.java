@@ -1,8 +1,9 @@
-package com.syxbruno.authentication_project.controller.user;
+package com.syxbruno.authentication_project.controller;
 
 import com.syxbruno.authentication_project.dto.user.request.UserLoginRequest;
+import com.syxbruno.authentication_project.dto.user.request.UserRefreshTokenRequest;
 import com.syxbruno.authentication_project.dto.user.request.UserRegisterRequest;
-import com.syxbruno.authentication_project.dto.user.response.UserLoginResponse;
+import com.syxbruno.authentication_project.dto.user.response.UserTokenResponse;
 import com.syxbruno.authentication_project.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,16 +19,23 @@ public class UserController {
   private final UserService service;
 
   @PostMapping("/login")
-  public ResponseEntity<UserLoginResponse> login(@RequestBody @Valid UserLoginRequest data) {
+  public ResponseEntity<UserTokenResponse> login(@RequestBody @Valid UserLoginRequest data) {
 
-      UserLoginResponse response = service.login(data);
-      return ResponseEntity.ok(response);
+    UserTokenResponse response = service.login(data);
+    return ResponseEntity.ok(response);
   }
 
   @PostMapping("/register")
-  public ResponseEntity register(@RequestBody @Valid UserRegisterRequest data) {
+  public ResponseEntity<Void> register(@RequestBody @Valid UserRegisterRequest data) {
 
     service.register(data);
     return ResponseEntity.ok().build();
+  }
+
+  @PostMapping("/update-token")
+  public ResponseEntity<UserTokenResponse> updateToken(@RequestBody @Valid UserRefreshTokenRequest data) {
+
+    UserTokenResponse response = service.updateToken(data);
+    return ResponseEntity.ok(response);
   }
 }

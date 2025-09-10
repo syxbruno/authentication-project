@@ -5,60 +5,77 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.syxbruno.authentication_project.config.properties.TokenProperties;
-import com.syxbruno.authentication_project.exception.UserResponseException;
+import com.syxbruno.authentication_project.exception.BusinessRules;
 import com.syxbruno.authentication_project.model.User;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class TokenService {
 
-    private final TokenProperties secret;
-    private final String WITH_ISSUER = "auth-project";
+  private final TokenProperties secret;
+  private final String WITH_ISSUER = "auth-project";
 
-    public String generateToken(User user) {
+  public String generateToken(User user) {
 
-        try {
+    try {
 
-            Algorithm algorithm = Algorithm.HMAC256(secret.getSecret());
+      Algorithm algorithm = Algorithm.HMAC256(secret.getSecret());
 
-            return JWT.create()
-                    .withIssuer(WITH_ISSUER)
-                    .withSubject(user.getEmail())
-                    .withExpiresAt(expiryToken())
-                    .sign(algorithm);
+      return JWT.create()
+          .withIssuer(WITH_ISSUER)
+          .withSubject(user.getEmail())
+          .withExpiresAt(expiryToken(60L))
+          .sign(algorithm);
 
-        } catch (JWTCreationException e) {
+    } catch (JWTCreationException e) {
 
-            throw new UserResponseException("Error creating token");
-        }
+      throw new BusinessRules("Error creating token");
     }
+  }
 
-    public String validateToken(String token) {
+  public String generateRefreshToken(User user) {
 
-        try {
+    try {
 
-            Algorithm algorithm = Algorithm.HMAC256(secret.getSecret());
+      Algorithm algorithm = Algorithm.HMAC256(secret.getSecret());
 
-            return JWT.require(algorithm)
-                    .withIssuer(WITH_ISSUER)
-                    .build()
-                    .verify(token)
-                    .getSubject();
+      return JWT.create()
+          .withIssuer(WITH_ISSUER)
+          .withSubject(user.getId().toString())
+          .withExpiresAt(expiryToken(120L))
+          .sign(algorithm);
 
-        } catch (JWTVerificationException e) {
+    } catch (JWTCreationException e) {
 
-            return "";
-        }
+      throw new BusinessRules("Error creating token");
     }
+  }
 
-    private Instant expiryToken() {
+  public String validateToken(String token) {
 
-        return LocalDateTime.now().plusMinutes(30).toInstant(ZoneOffset.of("-03:00"));
+    try {
+
+      Algorithm algorithm = Algorithm.HMAC256(secret.getSecret());
+
+      return JWT.require(algorithm)
+          .withIssuer(WITH_ISSUER)
+          .build()
+          .verify(token)
+          .getSubject();
+
+    } catch (JWTVerificationException e) {
+
+      return "";
     }
+  }
+
+  private Instant expiryToken(Long minutes) {
+
+    return LocalDateTime.now().plusMinutes(minutes).toInstant(ZoneOffset.of("-03:00"));
+  }
 }
