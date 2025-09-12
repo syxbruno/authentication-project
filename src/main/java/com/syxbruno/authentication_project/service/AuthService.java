@@ -36,18 +36,6 @@ public class AuthService implements UserDetailsService {
     return userRepository.findByEmail(username).orElseThrow(() -> new BusinessRules("This email is not registered in the database"));
   }
 
-  public AuthTokenResponse login(AuthLoginRequest data) {
-
-    UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
-    Authentication auth = manager.authenticate(usernamePassword);
-
-    String token = service.generateToken((User) auth.getPrincipal());
-    String refreshToken = service.generateRefreshToken((User) auth.getPrincipal());
-
-    return new AuthTokenResponse(token, refreshToken);
-  }
-
-
   public void register(@Valid AuthRegisterRequest data) {
 
     if (userRepository.findByEmail(data.email()).isPresent()) {
@@ -60,6 +48,17 @@ public class AuthService implements UserDetailsService {
     User user = new User(data.name(), data.email(), encryptedPassword, profileUser);
 
     userRepository.save(user);
+  }
+
+  public AuthTokenResponse login(AuthLoginRequest data) {
+
+    UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
+    Authentication auth = manager.authenticate(usernamePassword);
+
+    String token = service.generateToken((User) auth.getPrincipal());
+    String refreshToken = service.generateRefreshToken((User) auth.getPrincipal());
+
+    return new AuthTokenResponse(token, refreshToken);
   }
 
   public AuthTokenResponse updateToken(@Valid AuthRefreshTokenRequest data) {

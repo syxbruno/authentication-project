@@ -19,11 +19,11 @@
 
   <properties>
     <java.version>21</java.version>
+    <java-jwt.version>4.5.0</java-jwt.version>
+    <mapstruct.version>1.6.3</mapstruct.version>
     <flyway-core.version>11.12.0</flyway-core.version>
     <flyway-mysql.version>11.11.2</flyway-mysql.version>
-    <java-jwt.version>4.5.0</java-jwt.version>
     <jib-maven-plugin.version>3.4.6</jib-maven-plugin.version>
-    <mapstruct.version>1.6.3</mapstruct.version>
     <mapstruct-processor.version>1.6.3</mapstruct-processor.version>
   </properties>
 
@@ -113,6 +113,11 @@
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-test</artifactId>
       <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-mail</artifactId>
     </dependency>
   </dependencies>
 

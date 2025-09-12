@@ -9,14 +9,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
+@Setter
 @Entity(name = "users")
 public class User implements UserDetails {
 
@@ -30,6 +33,8 @@ public class User implements UserDetails {
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "users_profiles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "profiles_id"))
   private final List<Profiles> profiles = new ArrayList<>();
+  private String token;
+  private LocalDateTime tokenExpiration;
 
   public User(String name, String email, String password, Profiles profile) {
     this.name = name;
@@ -39,7 +44,6 @@ public class User implements UserDetails {
   }
 
   public void addProfile(Profiles profile) {
-
     this.profiles.add(profile);
   }
 

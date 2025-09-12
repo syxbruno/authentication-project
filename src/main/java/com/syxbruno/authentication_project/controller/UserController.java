@@ -17,6 +17,12 @@ public class UserController {
 
   private final UserService service;
 
+  @PatchMapping("/reset-password")
+  public ResponseEntity<Void> sendTokenEmail(@RequestBody String email) {
+
+    service.sendToken(email);
+  }
+
   @PatchMapping("/add-profile/{id}")
   public ResponseEntity<UserResponse> addProfile(@PathVariable Long id, @RequestBody @Valid UserProfileRequest data) {
 

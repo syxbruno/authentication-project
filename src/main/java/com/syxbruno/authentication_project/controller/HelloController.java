@@ -10,13 +10,13 @@ public class HelloController {
   @GetMapping("/user")
   public ResponseEntity<String> helloUser() {
 
-    return ResponseEntity.ok("Hello User");
+    return ResponseEntity.ok("Hello User, Admin or Super");
   }
 
   @GetMapping("/admin")
   public ResponseEntity<String> helloAdmin() {
 
-    return ResponseEntity.ok("Hello Admin");
+    return ResponseEntity.ok("Hello Admin or Super");
   }
 
   @GetMapping("/super")

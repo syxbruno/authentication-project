@@ -18,18 +18,18 @@ public class AuthController {
 
   private final AuthService service;
 
-  @PostMapping("/login")
-  public ResponseEntity<AuthTokenResponse> login(@RequestBody @Valid AuthLoginRequest data) {
-
-    AuthTokenResponse response = service.login(data);
-    return ResponseEntity.ok(response);
-  }
-
   @PostMapping("/register")
   public ResponseEntity<Void> register(@RequestBody @Valid AuthRegisterRequest data) {
 
     service.register(data);
     return ResponseEntity.ok().build();
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<AuthTokenResponse> login(@RequestBody @Valid AuthLoginRequest data) {
+
+    AuthTokenResponse response = service.login(data);
+    return ResponseEntity.ok(response);
   }
 
   @PostMapping("/update-token")
