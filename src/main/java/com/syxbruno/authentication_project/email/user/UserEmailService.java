@@ -1,5 +1,6 @@
 package com.syxbruno.authentication_project.email.user;
 
+import com.syxbruno.authentication_project.config.properties.EmailProperties;
 import com.syxbruno.authentication_project.exception.BusinessRules;
 import com.syxbruno.authentication_project.model.User;
 import jakarta.mail.MessagingException;
@@ -16,25 +17,24 @@ import org.springframework.stereotype.Service;
 public class UserEmailService {
 
   private final JavaMailSender sender;
-  private final String SOURCE_EMAIL = "authenticationproject@gmail.com";
-  private final String SENDER_NAME = "authentication project by syxbruno";
-  private final String URL_WEBSITE = "http://localhost:8080";
+  private final EmailProperties sourceEmail;
+  private final String SENDER_NAME = "authentication project by bruno";
 
   public void sendEmailResetPassword(User user) {
 
     String subject = "Email to change password";
 
     String content = generateContent(
-        "How are you, [[name]]? <br>"
-            + "This is your endpoint to change/reset your password: <br>"
-            + " <h3>[[url]]</h3>"
-            + " Authentication Project", user.getName(), URL_WEBSITE + "/send-password?code=" + user.getToken()
+        "Hello [[name]], how are you? <br>"
+            + "This is your endpoint and your token to change/reset your password: <br>"
+            + " <h3>Endpoint: [[url]]  Token: [[token]]</h3>"
+            + " Authentication Project", user.getName(), user.getToken()
     );
   }
 
-  private String generateContent(String template, String name, String url) {
+  private String generateContent(String template, String name, String token) {
 
-    return template.replace("[[name]]", name).replace("[[url]]", url);
+    return template.replace("[[name]]", name).replace("[[url]]", "/alter-password").replace("[[token]]", token);
   }
 
   @Async
@@ -45,14 +45,14 @@ public class UserEmailService {
 
     try {
 
-      helper.setFrom(SOURCE_EMAIL, SENDER_NAME);
+      helper.setFrom(sourceEmail.getUsername(), SENDER_NAME);
       helper.setTo(emailUser);
       helper.setSubject(subject);
       helper.setText(content, true);
 
     } catch (MessagingException | UnsupportedEncodingException e) {
 
-      throw new BusinessRules("");
+      throw new BusinessRules("Error sending email");
     }
   }
 }

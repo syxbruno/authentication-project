@@ -21,6 +21,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
   private final SecurityFilter securityFilter;
+  private final String[] WHITE_LIST = {
+      "/login",
+      "/register",
+      "/update-token",
+      "/reset-password",
+      "/alter-password"
+  };
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,7 +38,7 @@ public class SecurityConfiguration {
         .authorizeHttpRequests(auth -> {
 
           auth
-              .requestMatchers(HttpMethod.POST, "/login", "/register", "/update-token").permitAll()
+              .requestMatchers(HttpMethod.POST, WHITE_LIST).permitAll()
               .anyRequest().authenticated();
         })
         .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
