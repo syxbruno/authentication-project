@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class UserEmailService {
 
   private final JavaMailSender sender;
-  private final EmailProperties sourceEmail;
+  private final EmailProperties properties;
   private final String SENDER_NAME = "authentication project by bruno";
 
   public void sendEmailResetPassword(User user) {
@@ -45,7 +45,7 @@ public class UserEmailService {
 
     try {
 
-      helper.setFrom(sourceEmail.getUsername(), SENDER_NAME);
+      helper.setFrom(properties.getUsername(), SENDER_NAME);
       helper.setTo(emailUser);
       helper.setSubject(subject);
       helper.setText(content, true);

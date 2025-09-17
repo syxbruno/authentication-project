@@ -15,26 +15,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService implements UserDetailsService {
+public class AuthService {
 
   private final TokenService service;
   private final PasswordEncoder encoder;
   private final UserRepository userRepository;
   private final ProfilesRepository profilesRepository;
   private final AuthenticationManager manager;
-
-  @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    return userRepository.findByEmail(username).orElseThrow(() -> new BusinessRules("This email is not registered in the database"));
-  }
 
   public void register(@Valid AuthRegisterRequest data) {
 

@@ -22,7 +22,7 @@ public class SecurityConfiguration {
 
   private final SecurityFilter securityFilter;
   private final String[] WHITE_LIST = {
-      "/login",
+      "/login/**",
       "/register",
       "/update-token",
       "/reset-password",
@@ -38,7 +38,7 @@ public class SecurityConfiguration {
         .authorizeHttpRequests(auth -> {
 
           auth
-              .requestMatchers(HttpMethod.POST, WHITE_LIST).permitAll()
+              .requestMatchers(WHITE_LIST).permitAll()
               .anyRequest().authenticated();
         })
         .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

@@ -17,14 +17,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TokenService {
 
-  private final TokenProperties secret;
+  private final TokenProperties properties;
   private final String WITH_ISSUER = "auth-project";
 
   public String generateToken(User user) {
 
     try {
 
-      Algorithm algorithm = Algorithm.HMAC256(secret.getSecret());
+      Algorithm algorithm = Algorithm.HMAC256(properties.getSecret());
 
       return JWT.create()
           .withIssuer(WITH_ISSUER)
@@ -42,7 +42,7 @@ public class TokenService {
 
     try {
 
-      Algorithm algorithm = Algorithm.HMAC256(secret.getSecret());
+      Algorithm algorithm = Algorithm.HMAC256(properties.getSecret());
 
       return JWT.create()
           .withIssuer(WITH_ISSUER)
@@ -60,7 +60,7 @@ public class TokenService {
 
     try {
 
-      Algorithm algorithm = Algorithm.HMAC256(secret.getSecret());
+      Algorithm algorithm = Algorithm.HMAC256(properties.getSecret());
 
       return JWT.require(algorithm)
           .withIssuer(WITH_ISSUER)
