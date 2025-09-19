@@ -2,3 +2,8 @@ CREATE TABLE profiles (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
+
+INSERT INTO profiles (name) VALUES ('STUDENT');
+INSERT INTO profiles (name) VALUES ('TEACHER');
+INSERT INTO profiles (name) VALUES ('DIRECTOR');
+INSERT INTO profiles (name) VALUES ('DEVELOPER');

@@ -65,8 +65,4 @@ public class User implements UserDetails {
   public String getPassword() {
     return this.password;
   }
-
-  public void changePassword(String encryptedPassword) {
-    this.password = encryptedPassword;
-  }
 }

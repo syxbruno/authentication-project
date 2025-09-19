@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfiguration {
+public class SecurityConfig {
 
   private final SecurityFilter securityFilter;
   private final String[] WHITE_LIST = {
@@ -39,6 +39,10 @@ public class SecurityConfiguration {
 
           auth
               .requestMatchers(WHITE_LIST).permitAll()
+              .requestMatchers(HttpMethod.PATCH,"/add-profile/**").hasRole("DEVELOPER")
+              .requestMatchers(HttpMethod.GET,"/student").hasRole("STUDENT")
+              .requestMatchers(HttpMethod.GET,"/teacher").hasRole("TEACHER")
+              .requestMatchers(HttpMethod.GET,"/director").hasRole("DIRECTOR")
               .anyRequest().authenticated();
         })
         .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

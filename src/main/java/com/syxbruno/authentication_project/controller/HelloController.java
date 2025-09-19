@@ -7,21 +7,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-  @GetMapping("/user")
-  public ResponseEntity<String> helloUser() {
+  @GetMapping("/student")
+  public ResponseEntity<String> helloStudent() {
 
-    return ResponseEntity.ok("Hello User, Admin or Super");
+    return ResponseEntity.ok("Hello Student");
   }
 
-  @GetMapping("/admin")
-  public ResponseEntity<String> helloAdmin() {
+  @GetMapping("/teacher")
+  public ResponseEntity<String> helloTeacher() {
 
-    return ResponseEntity.ok("Hello Admin or Super");
+    return ResponseEntity.ok("Hello Teacher");
   }
 
-  @GetMapping("/super")
-  public ResponseEntity<String> helloSuper() {
+  @GetMapping("/director")
+  public ResponseEntity<String> helloDirector() {
 
-    return ResponseEntity.ok("Hello Super");
+    return ResponseEntity.ok("Hello Director");
   }
 }

@@ -14,6 +14,8 @@ import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +32,7 @@ public class UserService {
   @Transactional
   public void sendToken(String email) {
 
-    User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessRules("Email not Found"));
+    User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email not Found"));
     String token = UUID.randomUUID().toString();
 
     user.setToken(token);
@@ -55,7 +57,7 @@ public class UserService {
       throw new BusinessRules("The passwords don't match");
     }
 
-    user.changePassword(encoder.encode(data.newPassword()));
+    user.setPassword(encoder.encode(data.newPassword()));
     user.setToken(null);
     user.setTokenExpiration(null);
 
@@ -65,10 +67,11 @@ public class UserService {
   @Transactional
   public UserResponse addProfile(Long id, UserProfileRequest data) {
 
-    User user = userRepository.findById(id).orElseThrow(() -> new BusinessRules("User not found"));
-    Profiles profile = profilesRepository.findByName(data.profilesName());
+    User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    Profiles profile = profilesRepository.findByName(data.profilesName()).orElseThrow(() -> new UsernameNotFoundException("Profile not found"));
 
     user.addProfile(profile);
+    userRepository.save(user);
 
     return mapper.toUserResponse(user);
   }
