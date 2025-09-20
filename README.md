@@ -30,7 +30,7 @@ and the database are orchestrated with **Docker** to simplify the development en
 |----------------------|---------------------------------------------------------|
 | **Language**         | Java 21                                                 |
 | **Frameworks**       | Spring (JPA, Validation, Web, DevTools, Security, Mail) |
-| **Authentication**   | JWT                                                     |
+| **Authentication**   | JWT, OAuth (Google)                                     |
 | **Containerization** | Docker, Google JIB                                      |
 | **Database**         | MySQL                                                   |
 | **Migrations**       | Flyway                                                  |
@@ -52,6 +52,10 @@ and the database are orchestrated with **Docker** to simplify the development en
 `PATCH /verify` Verifies the user's email using a `code` sent in the request body.  
 `PATCH /update-token` Generates a new access token using an existing refresh token.
 
+### LoginGoogleController
+
+`GET /login/google` Log in a user already registered using `Google`.
+
 ### UserController
 
 `PATCH /add-profile/{id}` Adds a role to the user with the specified ID. Requires the **DEVELOPER** role and a body containing
@@ -63,21 +67,23 @@ and the database are orchestrated with **Docker** to simplify the development en
 
 ## How to Run the Application
 
-To run the project, you need **Docker** and **Docker Compose** installed.
-
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/syxbruno/authentication-project.git
    cd authentication-project
 
 2. **Build the Docker image of the REST API:**
+
    ```bash
    mvn compile jib:dockerBuild
 
 3. **Start the containers:**
+
    ```bash
    docker-compose up
 
 4. **REST API URL**
+
    ```bash
    http://localhost:8080

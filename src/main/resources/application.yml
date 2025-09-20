@@ -34,3 +34,9 @@ api:
   security:
     token:
       secret: ${ENV_TOKEN_SECRET}
+
+google:
+  oauth:
+    client:
+      id: ${ENV_GOOGLE_CLIENT_ID}
+      secret: ${ENV_GOOGLE_CLIENT_SECRET}
