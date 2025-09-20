@@ -1,3 +1,12 @@
+ENV_DB_URL=jdbc:mysql://db:3306/db_authentication?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
 ENV_DB_ROOT_PASSWORD=
 ENV_DB_USER=
 ENV_DB_PASSWORD=
+
+ENV_EMAIL_USERNAME=
+ENV_EMAIL_PASSWORD=
+
+ENV_TOKEN_SECRET=
+
+ENV_GOOGLE_CLIENT_ID=
+ENV_GOOGLE_CLIENT_SECRET=

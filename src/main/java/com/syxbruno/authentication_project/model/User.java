@@ -39,12 +39,14 @@ public class User implements UserDetails {
   private final List<Profiles> profiles = new ArrayList<>();
   private String token;
   private LocalDateTime tokenExpiration;
+  private Boolean verifiedEmail;
 
-  public User(String name, String email, String password, Profiles profile) {
+  public User(String name, String email, String password, Profiles profile, Boolean verifiedEmail) {
     this.name = name;
     this.email = email;
     this.password = password;
     this.profiles.add(profile);
+    this.verifiedEmail = verifiedEmail;
   }
 
   public void addProfile(Profiles profile) {
@@ -64,5 +66,10 @@ public class User implements UserDetails {
   @Override
   public String getPassword() {
     return this.password;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return this.verifiedEmail;
   }
 }

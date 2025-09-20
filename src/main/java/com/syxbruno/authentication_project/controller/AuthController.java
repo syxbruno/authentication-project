@@ -3,12 +3,13 @@ package com.syxbruno.authentication_project.controller;
 import com.syxbruno.authentication_project.dto.request.auth.AuthLoginRequest;
 import com.syxbruno.authentication_project.dto.request.auth.AuthRefreshTokenRequest;
 import com.syxbruno.authentication_project.dto.request.auth.AuthRegisterRequest;
+import com.syxbruno.authentication_project.dto.request.auth.AuthVerifyRequest;
 import com.syxbruno.authentication_project.dto.response.auth.AuthTokenResponse;
 import com.syxbruno.authentication_project.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,21 +19,28 @@ public class AuthController {
 
   private final AuthService service;
 
-  @PostMapping("/register")
-  public ResponseEntity<Void> register(@RequestBody @Valid AuthRegisterRequest data) {
+  @PatchMapping("/register")
+  public ResponseEntity<String> register(@RequestBody @Valid AuthRegisterRequest data) {
 
-    service.register(data);
-    return ResponseEntity.ok().build();
+    String response = service.register(data);
+    return ResponseEntity.ok(response);
   }
 
-  @PostMapping("/login")
+  @PatchMapping("/verify")
+  public ResponseEntity<String> verifyEmail(@RequestBody @Valid AuthVerifyRequest data) {
+
+    service.verifyEmail(data);
+    return ResponseEntity.ok("Email verified successfully");
+  }
+
+  @PatchMapping("/login")
   public ResponseEntity<AuthTokenResponse> login(@RequestBody @Valid AuthLoginRequest data) {
 
     AuthTokenResponse response = service.login(data);
     return ResponseEntity.ok(response);
   }
 
-  @PostMapping("/update-token")
+  @PatchMapping("/update-token")
   public ResponseEntity<AuthTokenResponse> updateToken(@RequestBody @Valid AuthRefreshTokenRequest data) {
 
     AuthTokenResponse response = service.updateToken(data);

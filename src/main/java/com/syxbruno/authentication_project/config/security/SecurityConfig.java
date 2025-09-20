@@ -22,10 +22,11 @@ public class SecurityConfig {
 
   private final SecurityFilter securityFilter;
   private final String[] WHITE_LIST = {
+      "/verify",
       "/login/**",
       "/register",
+      "/send-code",
       "/update-token",
-      "/reset-password",
       "/alter-password"
   };
 
@@ -39,10 +40,10 @@ public class SecurityConfig {
 
           auth
               .requestMatchers(WHITE_LIST).permitAll()
-              .requestMatchers(HttpMethod.PATCH,"/add-profile/**").hasRole("DEVELOPER")
-              .requestMatchers(HttpMethod.GET,"/student").hasRole("STUDENT")
-              .requestMatchers(HttpMethod.GET,"/teacher").hasRole("TEACHER")
-              .requestMatchers(HttpMethod.GET,"/director").hasRole("DIRECTOR")
+              .requestMatchers(HttpMethod.GET, "/student").hasRole("STUDENT")
+              .requestMatchers(HttpMethod.GET, "/teacher").hasRole("TEACHER")
+              .requestMatchers(HttpMethod.GET, "/director").hasRole("DIRECTOR")
+              .requestMatchers(HttpMethod.PATCH, "/add-profile/**").hasRole("DEVELOPER")
               .anyRequest().authenticated();
         })
         .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
