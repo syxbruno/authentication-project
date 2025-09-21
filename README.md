@@ -30,7 +30,7 @@ and the database are orchestrated with **Docker** to simplify the development en
 |----------------------|---------------------------------------------------------|
 | **Language**         | Java 21                                                 |
 | **Frameworks**       | Spring (JPA, Validation, Web, DevTools, Security, Mail) |
-| **Authentication**   | JWT, OAuth (Google)                                     |
+| **Authentication**   | JWT, OAuth (Google), Google authenticator               |
 | **Containerization** | Docker, Google JIB                                      |
 | **Database**         | MySQL                                                   |
 | **Migrations**       | Flyway                                                  |
@@ -47,10 +47,11 @@ and the database are orchestrated with **Docker** to simplify the development en
 
 ### AuthController
 
-`PATCH /login` Authenticates a user with `email` and `password` in the request body.  
-`PATCH /register` Creates a new user with `name`, `email`, and `password`.  
+`POST /login` Authenticates a user with `email` and `password` in the request body.  
+`POST /register` Creates a new user with `name`, `email`, and `password`.  
 `PATCH /verify` Verifies the user's email using a `code` sent in the request body.  
-`PATCH /update-token` Generates a new access token using an existing refresh token.
+`POST /update-token` Generates a new access token using an existing refresh token.  
+`POST /verify-a2f` If A2F authentication is active, it authenticates a user via Google Authenticator.  
 
 ### LoginGoogleController
 
@@ -60,8 +61,10 @@ and the database are orchestrated with **Docker** to simplify the development en
 
 `PATCH /add-profile/{id}` Adds a role to the user with the specified ID. Requires the **DEVELOPER** role and a body containing
 `profilesName` (`STUDENT`, `TEACHER`, or `DIRECTOR`).  
-`PATCH /send-code` Sends an email with a code for password reset.  
-`PATCH /alter-password` Resets the user's password with `code`, `newPassword`, and `repeatPassword`.
+`POST /send-code` Sends an email with a code for password reset.  
+`PATCH /alter-password` Resets the user's password with `code`, `newPassword`, and `repeatPassword`.  
+`POST /a2f` Enables A2F authentication and generates a qrcode.  
+`PATCH /disable-a2f` Disables A2F authentication for the logged in user.  
 
 ---
 

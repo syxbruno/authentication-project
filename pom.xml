@@ -19,6 +19,7 @@
 
   <properties>
     <java.version>21</java.version>
+    <onetime.version>2.1.2</onetime.version>
     <java-jwt.version>4.5.0</java-jwt.version>
     <flyway-core.version>11.12.0</flyway-core.version>
     <flyway-mysql.version>11.11.2</flyway-mysql.version>
@@ -104,6 +105,12 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-mail</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.atlassian</groupId>
+      <artifactId>onetime</artifactId>
+      <version>${onetime.version}</version>
     </dependency>
   </dependencies>
 

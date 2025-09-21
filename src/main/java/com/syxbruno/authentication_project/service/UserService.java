@@ -23,8 +23,9 @@ public class UserService {
 
   private final UserMapper mapper;
   private final PasswordEncoder encoder;
-  private final UserRepository userRepository;
+  private final TotpService totpService;
   private final EmailService emailService;
+  private final UserRepository userRepository;
   private final ProfilesRepository profilesRepository;
 
   @Transactional
@@ -72,5 +73,22 @@ public class UserService {
     userRepository.save(user);
 
     return mapper.toUserResponse(user);
+  }
+
+  @Transactional
+  public String generateQrCode(User user) {
+
+    user.setSecret(totpService.generateSecret());
+    user.setA2f(true);
+    userRepository.save(user);
+
+    return  totpService.generateQrCode(user);
+  }
+
+  @Transactional
+  public void disableA2f(User user) {
+
+    user.setA2f(false);
+    userRepository.save(user);
   }
 }

@@ -43,7 +43,7 @@ public class LoginGoogleService {
     String token = tokenService.generateToken(user);
     String refreshToken = tokenService.generateRefreshToken(user);
 
-    return new AuthTokenResponse(token, refreshToken);
+    return new AuthTokenResponse(token, refreshToken, false);
   }
 
   private String getToken(String code) {

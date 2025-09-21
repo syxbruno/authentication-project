@@ -26,6 +26,7 @@ public class SecurityConfig {
       "/login/**",
       "/register",
       "/send-code",
+      "/verify-a2f",
       "/update-token",
       "/alter-password"
   };

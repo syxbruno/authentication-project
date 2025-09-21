@@ -40,13 +40,16 @@ public class User implements UserDetails {
   private String token;
   private LocalDateTime tokenExpiration;
   private Boolean verifiedEmail;
+  private Boolean a2f;
+  private String secret;
 
-  public User(String name, String email, String password, Profiles profile, Boolean verifiedEmail) {
+  public User(String name, String email, String password, Profiles profile, Boolean verifiedEmail, Boolean a2f) {
     this.name = name;
     this.email = email;
     this.password = password;
     this.profiles.add(profile);
     this.verifiedEmail = verifiedEmail;
+    this.a2f = a2f;
   }
 
   public void addProfile(Profiles profile) {
